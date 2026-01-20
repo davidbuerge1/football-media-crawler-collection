@@ -1,9 +1,14 @@
 import re
 import time
 import csv
+import os
+import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
 import xml.etree.ElementTree as ET
+
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from classify_rules import classify_url
 
 # --- Settings ---
 START_YEAR = 2005
@@ -28,8 +33,7 @@ MAX_WORKERS = 6
 
 
 def classify_by_url(url: str) -> str:
-    u = url.lower()
-    return "Frauenfussball" if any(k in u for k in WOMEN_KW) else "Herrenfussball"
+    return classify_url(url, "LeFigaro")
 
 
 def year_month_from_lastmod(lastmod: str):

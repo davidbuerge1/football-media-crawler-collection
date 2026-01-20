@@ -1,8 +1,13 @@
 import re
 import time
 import csv
+import os
+import sys
 import requests
 import xml.etree.ElementTree as ET
+
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from classify_rules import classify_url
 
 # --- Settings ---
 START_YEAR = 2005
@@ -26,8 +31,7 @@ MAX_SITEMAPS = 20000
 
 
 def classify_by_url(url: str) -> str:
-    u = url.lower()
-    return "Frauenfussball" if any(k in u for k in WOMEN_KW) else "Herrenfussball"
+    return classify_url(url, "LeMonde")
 
 
 def year_month_from_lastmod(lastmod: str):
@@ -92,7 +96,7 @@ def iter_sitemaps():
     count = 0
     for loc, lastmod in items:
         y = year_from_sitemap_url(loc) or (year_month_from_lastmod(lastmod)[0] if lastmod else None)
-        if y is None or y < START_YEAR or y > END_YEAR:
+        if y is not None and (y < START_YEAR or y > END_YEAR):
             continue
         yield loc
         count += 1

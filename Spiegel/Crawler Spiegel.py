@@ -1,15 +1,19 @@
-import os
+﻿import os
 import time
 import csv
 import gzip
 import io
-import requests
+import sys
+import argparse\r?\nimport requests
 import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
 
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from classify_rules import classify_url
+
 # --- Settings ---
-START_YEAR = 2017
-END_YEAR = 2024
+START_YEAR = 2025
+END_YEAR = 2026
 ROBOTS_URL = "https://www.spiegel.de/robots.txt"  # kann ggf. Zugriffe steuern
 FOOTBALL_MARKER = "/sport/fussball/"
 
@@ -24,14 +28,20 @@ HEADERS = {
 }
 
 REQUEST_DELAY = 0.8
-MAX_SITEMAPS = 4000     # harte Bremse
-MAX_URLS = 300000       # harte Bremse
+MAX_SITEMAPS = None     # keine Begrenzung
+MAX_URLS = None       # keine Begrenzung
 DEBUG = True
 MAX_DEBUG_URLS = 5
 
+def setup_logging(log_path: str):
+    if not log_path:
+        return
+    log_file = open(log_path, "a", encoding="utf-8")
+    sys.stdout = log_file
+    sys.stderr = log_file
+
 def classify(text: str) -> str:
-    t = text.lower()
-    return "Frauenfussball" if any(k in t for k in WOMEN_KW) else "Herrenfussball"
+    return classify_url(text, "Spiegel")
 
 def year_from_lastmod(lastmod: str):
     if not lastmod:
@@ -117,7 +127,7 @@ def choose_best_root_sitemap(sitemaps: list[str]) -> str:
 def iter_urlsets(root_sitemap: str):
     queue = [root_sitemap]
     seen = set()
-    while queue and len(seen) < MAX_SITEMAPS:
+    while queue and (MAX_SITEMAPS is None or len(seen) < MAX_SITEMAPS):
         sm_url = queue.pop(0)
         if sm_url in seen:
             continue
@@ -181,10 +191,10 @@ def main():
             if DEBUG and len(debug_urls) < MAX_DEBUG_URLS:
                 debug_urls.append(loc)
 
-            if len(rows) >= MAX_URLS:
-                print("[INFO] MAX_URLS erreicht – Stop.")
+            if MAX_URLS is not None and len(rows) >= MAX_URLS:
+                print("[INFO] MAX_URLS erreicht â€“ Stop.")
                 break
-        if len(rows) >= MAX_URLS:
+        if MAX_URLS is not None and len(rows) >= MAX_URLS:
             break
 
     counts = {}
@@ -196,8 +206,8 @@ def main():
         counts[y]["Total"] += 1
 
     base_dir = os.path.dirname(__file__)
-    urls_path = os.path.join(base_dir, "spiegel_fussball_urls_2017_2024.csv")
-    counts_path = os.path.join(base_dir, "spiegel_fussball_counts_2017_2024.csv")
+    urls_path = os.path.join(base_dir, "spiegel_fussball_urls_2024_2025.csv")
+    counts_path = os.path.join(base_dir, "spiegel_fussball_counts_2024_2025.csv")
 
     with open(urls_path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["year", "lastmod", "category", "url"])
@@ -231,4 +241,14 @@ def main():
                 print(" -", u)
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Spiegel Crawler")
+    parser.add_argument("--log", help="Pfad fuer Logfile (optional).", default="")
+    parser.add_argument("--debug", action="store_true", help="Debug-Ausgaben aktivieren.")
+    args = parser.parse_args()
+    setup_logging(args.log)
+    if args.debug:
+        DEBUG = True
     main()
+
+
+

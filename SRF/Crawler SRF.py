@@ -1,9 +1,14 @@
 import re
 import time
 import csv
+import os
+import sys
 import requests
 import xml.etree.ElementTree as ET
 from datetime import datetime
+
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from classify_rules import classify_url
 
 # --- Settings ---
 START_YEAR = 2005
@@ -28,11 +33,7 @@ HEADERS = {
 }
 
 def classify_by_url(url: str) -> str:
-    u = url.lower()
-    if any(k in u for k in WOMEN_KW):
-        return "Frauenfussball"
-    # Default-Regel: Fussball-URL ohne Frauen-Keywords => Herrenfussball
-    return "Herrenfussball"
+    return classify_url(url, "SRF")
 
 def fetch_sitemap(year: int, month: int) -> str:
     url = SITEMAP_TEMPLATE.format(year=year, month=month)

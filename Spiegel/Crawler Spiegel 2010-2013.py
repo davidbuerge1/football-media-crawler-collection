@@ -3,9 +3,14 @@ import time
 import csv
 import gzip
 import io
+import os
+import sys
 import requests
 import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
+
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from classify_rules import classify_url
 
 # --- Settings ---
 START_YEAR = 2017
@@ -30,8 +35,7 @@ DEBUG = True
 MAX_DEBUG_URLS = 5
 
 def classify(text: str) -> str:
-    t = text.lower()
-    return "Frauenfussball" if any(k in t for k in WOMEN_KW) else "Herrenfussball"
+    return classify_url(text, "Spiegel")
 
 def year_from_lastmod(lastmod: str):
     if not lastmod:
