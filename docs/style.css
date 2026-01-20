@@ -1,9 +1,11 @@
 ﻿:root {
-  --text: #1c1c1c;
-  --muted: #5a5a5a;
-  --line: #d8d8d8;
-  --bg: #ffffff;
-  --accent: #0b4f6c;
+  --text: #c9d1d9;
+  --muted: #8b949e;
+  --line: #30363d;
+  --bg: #0b0f14;
+  --surface: #161b22;
+  --accent: #2f81f7;
+  --thead: #21262d;
 }
 
 * {
@@ -12,13 +14,13 @@
 
 body {
   margin: 0;
-  font-family: "Times New Roman", Georgia, serif;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   color: var(--text);
   background: var(--bg);
 }
 
 .content {
-  max-width: 900px;
+  max-width: 980px;
   margin: 0 auto;
   padding: 40px 20px 64px;
   line-height: 1.65;
@@ -60,17 +62,30 @@ table {
   border-collapse: collapse;
   margin: 12px 0 20px;
   font-size: 0.95rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 thead th {
   text-align: left;
-  border-bottom: 2px solid var(--line);
-  padding: 6px 8px;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 10px;
+  background: var(--thead);
 }
 
 tbody td {
   border-bottom: 1px solid var(--line);
-  padding: 6px 8px;
+  padding: 8px 10px;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:nth-child(even) {
+  background: #1c222b;
 }
 
 .muted {
@@ -86,6 +101,8 @@ tbody td {
 .media-block {
   border: 1px solid var(--line);
   padding: 12px 14px;
+  background: var(--surface);
+  border-radius: 6px;
 }
 
 hr {
