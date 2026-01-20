@@ -33,65 +33,297 @@
       <pre><code>import re
 import time
 import csv
+import os
+import sys
 import requests
 import xml.etree.ElementTree as ET
 
-# --- Einstellungen ---
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from classify_rules import classify_url
+
+# --- Settings ---
 START_YEAR = 2005
 END_YEAR = 2025
-SITEMAP_TEMPLATE = "https://www.example.com/sitemaps/articles/{year}_{month:02d}.xml"
-FOOTBALL_PREFIX = "https://www.example.com/sport/fussball/"
 
-EXCLUDE_FRAU = {"spielerfrau", "ehefrau", "moglie"}
-WOMEN_TOKENS = {"frauen", "frauenfussball", "wsl"}
-MEN_TOKENS = {"bundesliga", "champions-league"}
+SITEMAP_INDEX = &quot;https://www.example.com/sitemaps/articles.xml&quot;
+OUTLET_NAME = &quot;&quot;
 
-def tokenize(url: str) -> set[str]:
+EXCLUDE_FRAU = {
+    &quot;spielerfrau&quot;,
+    &quot;frau-von&quot;,
+    &quot;frau-des&quot;,
+    &quot;ehefrau&quot;,
+    &quot;exfrau&quot;,
+    &quot;ex-frau&quot;,
+    &quot;freundin&quot;,
+    &quot;gattin&quot;,
+    &quot;verlobte&quot;,
+    # French
+    &quot;epouse&quot;,
+    &quot;epouse-de&quot;,
+    &quot;ex-epouse&quot;,
+    # Italian
+    &quot;moglie&quot;,
+    &quot;ex-moglie&quot;,
+}
+
+WOMEN_NAMES = {
+    &quot;rapinoe&quot;,
+    &quot;morgan&quot;,
+    &quot;hegerberg&quot;,
+    &quot;miedema&quot;,
+    &quot;putellas&quot;,
+    &quot;bonmati&quot;,
+    &quot;kerr&quot;,
+    &quot;marta&quot;,
+    &quot;kirby&quot;,
+    &quot;mead&quot;,
+    &quot;bronze&quot;,
+    &quot;hamm&quot;,
+    # Switzerland
+    &quot;bachmann&quot;,
+    &quot;maendly&quot;,
+    &quot;beney&quot;,
+    &quot;maritz&quot;,
+    &quot;crnogorcevic&quot;,
+    &quot;thalmann&quot;,
+    &quot;calligaris&quot;,
+    &quot;lehmann&quot;,
+    &quot;waelti&quot;,
+    # International
+    &quot;popp&quot;,
+    &quot;oberdorf&quot;,
+    &quot;hansen&quot;,
+    &quot;hasegawa&quot;,
+    &quot;foord&quot;,
+    &quot;graham&quot;,
+    &quot;rodman&quot;,
+    &quot;lavelle&quot;,
+    &quot;press&quot;,
+}
+
+MEN_NAMES = {
+    &quot;messi&quot;,
+    &quot;ronaldo&quot;,
+    &quot;mbappe&quot;,
+    &quot;haaland&quot;,
+    &quot;neymar&quot;,
+    &quot;lewandowski&quot;,
+    &quot;benzema&quot;,
+    &quot;modric&quot;,
+    &quot;kroos&quot;,
+    &quot;kane&quot;,
+    &quot;salah&quot;,
+    &quot;bellingham&quot;,
+    &quot;vinicius&quot;,
+}
+
+OUTLET_WOMEN = {
+    &quot;frauen&quot;,
+    &quot;frauenfussball&quot;,
+    &quot;fussballerinnen&quot;,
+    &quot;frauenliga&quot;,
+    &quot;frauenbundesliga&quot;,
+    &quot;2-frauen-bundesliga&quot;,
+    &quot;dfb-frauen&quot;,
+    &quot;uefa-frauen&quot;,
+    &quot;fifa-frauen&quot;,
+    &quot;frauen-em&quot;,
+    &quot;frauen-wm&quot;,
+    &quot;frauen-weltmeisterschaft&quot;,
+    &quot;frauen-europameisterschaft&quot;,
+    &quot;frauen-nationalmannschaft&quot;,
+    &quot;frauen-nationalteam&quot;,
+    &quot;frauennati&quot;,
+    &quot;frauen-nati&quot;,
+}
+
+OUTLET_MEN = {
+    &quot;bundesliga&quot;,
+    &quot;2-bundesliga&quot;,
+    &quot;dritte-liga&quot;,
+    &quot;dfb-pokal&quot;,
+    &quot;champions-league&quot;,
+    &quot;europa-league&quot;,
+    &quot;conference-league&quot;,
+}
+
+WOMEN_TOKENS = OUTLET_WOMEN | WOMEN_NAMES
+MEN_TOKENS = OUTLET_MEN | MEN_NAMES
+
+HEADERS = {
+    &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Maturaarbeit; contact: your-email@example.com)&quot;
+}
+
+REQUEST_DELAY = 0.2
+MAX_SITEMAPS = 20000
+
+
+def classify_by_url(url: str) -&gt; str:
+    return classify_url(url, OUTLET_NAME)
+
+
+def tokenize(url: str) -&gt; set[str]:
     lower = url.lower()
-    cleaned = re.sub(r"[^a-z0-9]+", " ", lower)
+    cleaned = re.sub(r&quot;[^a-z0-9]+&quot;, &quot; &quot;, lower)
     return set(t for t in cleaned.split() if t)
 
-def matches_rules(url: str) -> bool:
+
+def matches_rules(url: str) -&gt; bool:
     tokens = tokenize(url)
-    return bool(tokens & (WOMEN_TOKENS | MEN_TOKENS | EXCLUDE_FRAU))
+    return bool(tokens &amp; (WOMEN_TOKENS | MEN_TOKENS | EXCLUDE_FRAU))
 
-def fetch_sitemap(year: int, month: int) -> str:
-    url = SITEMAP_TEMPLATE.format(year=year, month=month)
-    r = requests.get(url, timeout=30)
+
+def year_month_from_lastmod(lastmod: str):
+    if not lastmod or len(lastmod) &lt; 7:
+        return None, None
+    try:
+        return int(lastmod[:4]), int(lastmod[5:7])
+    except ValueError:
+        return None, None
+
+
+def year_month_from_url(url: str):
+    m = re.search(r&quot;/(19\d{2}|20\d{2})/(\d{2})/&quot;, url)
+    if m:
+        return int(m.group(1)), int(m.group(2))
+    m = re.search(r&quot;(19\d{2}|20\d{2})(\d{2})(\d{2})&quot;, url)
+    if m:
+        return int(m.group(1)), int(m.group(2))
+    return None, None
+
+
+def year_from_sitemap_url(url: str):
+    m = re.search(r&quot;/(19\d{2}|20\d{2})-\d{2}-\d{2}\.xml&quot;, url)
+    return int(m.group(1)) if m else None
+
+
+def month_from_sitemap_url(url: str):
+    m = re.search(r&quot;/(19\d{2}|20\d{2})-(\d{2})-\d{2}\.xml&quot;, url)
+    return int(m.group(2)) if m else None
+
+
+def fetch(url: str) -&gt; bytes:
+    r = requests.get(url, headers=HEADERS, timeout=30)
     r.raise_for_status()
-    return r.text
+    return r.content
 
-def parse_sitemap(xml_text: str):
-    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
-    root = ET.fromstring(xml_text)
-    out = []
-    for url_el in root.findall("sm:url", ns):
-        loc_el = url_el.find("sm:loc", ns)
-        lastmod_el = url_el.find("sm:lastmod", ns)
-        if loc_el is None:
-            continue
-        loc = loc_el.text.strip()
-        lastmod = lastmod_el.text.strip() if lastmod_el is not None and lastmod_el.text else ""
-        out.append((loc, lastmod))
-    return out
 
-rows = []
-for year in range(START_YEAR, END_YEAR + 1):
-    for month in range(1, 13):
-        try:
-            xml_text = fetch_sitemap(year, month)
-            entries = parse_sitemap(xml_text)
-        except Exception:
-            continue
-        for loc, lastmod in entries:
-            if not loc.startswith(FOOTBALL_PREFIX):
+def parse_sitemap(xml_bytes: bytes):
+    root = ET.fromstring(xml_bytes)
+    tag = root.tag.lower()
+    if tag.endswith(&quot;sitemapindex&quot;):
+        items = []
+        for sm in root.findall(&quot;.//{*}sitemap&quot;):
+            loc_el = sm.find(&quot;{*}loc&quot;)
+            last_el = sm.find(&quot;{*}lastmod&quot;)
+            if loc_el is None or not loc_el.text:
                 continue
+            items.append((loc_el.text.strip(), last_el.text.strip() if last_el is not None and last_el.text else &quot;&quot;))
+        return &quot;index&quot;, items
+    if tag.endswith(&quot;urlset&quot;):
+        items = []
+        for u in root.findall(&quot;.//{*}url&quot;):
+            loc_el = u.find(&quot;{*}loc&quot;)
+            last_el = u.find(&quot;{*}lastmod&quot;)
+            if loc_el is None or not loc_el.text:
+                continue
+            items.append((loc_el.text.strip(), last_el.text.strip() if last_el is not None and last_el.text else &quot;&quot;))
+        return &quot;urlset&quot;, items
+    return &quot;unknown&quot;, []
+
+
+def iter_sitemaps():
+    xml = fetch(SITEMAP_INDEX)
+    typ, items = parse_sitemap(xml)
+    if typ != &quot;index&quot;:
+        raise RuntimeError(&quot;Root sitemap is not an index.&quot;)
+    count = 0
+    for loc, lastmod in items:
+        y = year_from_sitemap_url(loc) or (year_month_from_lastmod(lastmod)[0] if lastmod else None)
+        if y is None or y &lt; START_YEAR or y &gt; END_YEAR:
+            continue
+        yield loc
+        count += 1
+        if count &gt;= MAX_SITEMAPS:
+            break
+
+
+def main():
+    rows = []
+    for sm_url in iter_sitemaps():
+        try:
+            xml = fetch(sm_url)
+            typ, entries = parse_sitemap(xml)
+        except Exception as e:
+            print(f&quot;[WARN] Failed sitemap: {sm_url} -&gt; {e}&quot;)
+            continue
+
+        if typ != &quot;urlset&quot;:
+            continue
+
+        for loc, lastmod in entries:
             if not matches_rules(loc):
                 continue
-            rows.append({"year": year, "month": month, "lastmod": lastmod, "url": loc})
-        time.sleep(0.8)
 
-# CSV schreiben und pro Jahr auswerten</code></pre>
+            y, m = year_month_from_lastmod(lastmod)
+            if y is None:
+                y, m = year_month_from_url(loc)
+            if y is None:
+                y = year_from_sitemap_url(sm_url)
+                m = month_from_sitemap_url(sm_url)
+
+            if y is None or y &lt; START_YEAR or y &gt; END_YEAR:
+                continue
+
+            rows.append({
+                &quot;year&quot;: y,
+                &quot;month&quot;: m or &quot;&quot;,
+                &quot;lastmod&quot;: lastmod,
+                &quot;url&quot;: loc,
+                &quot;category&quot;: classify_by_url(loc)
+            })
+
+        time.sleep(REQUEST_DELAY)
+
+    counts = {}
+    for r in rows:
+        y = r[&quot;year&quot;]
+        c = r[&quot;category&quot;]
+        counts.setdefault(y, {&quot;Frauenfussball&quot;: 0, &quot;Herrenfussball&quot;: 0, &quot;Total&quot;: 0})
+        counts[y][c] += 1
+        counts[y][&quot;Total&quot;] += 1
+
+    urls_csv = f&quot;fussball_urls_{START_YEAR}_{END_YEAR}.csv&quot;
+    counts_csv = f&quot;fussball_counts_{START_YEAR}_{END_YEAR}.csv&quot;
+
+    with open(urls_csv, &quot;w&quot;, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+        w = csv.DictWriter(f, fieldnames=[&quot;year&quot;, &quot;month&quot;, &quot;lastmod&quot;, &quot;category&quot;, &quot;url&quot;])
+        w.writeheader()
+        w.writerows(rows)
+
+    with open(counts_csv, &quot;w&quot;, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+        fieldnames = [&quot;year&quot;, &quot;Frauenfussball&quot;, &quot;Herrenfussball&quot;, &quot;Total&quot;, &quot;Frauen_Anteil&quot;]
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w.writeheader()
+        for y in sorted(counts.keys()):
+            total = counts[y][&quot;Total&quot;]
+            women = counts[y][&quot;Frauenfussball&quot;]
+            w.writerow({
+                &quot;year&quot;: y,
+                &quot;Frauenfussball&quot;: women,
+                &quot;Herrenfussball&quot;: counts[y][&quot;Herrenfussball&quot;],
+                &quot;Total&quot;: total,
+                &quot;Frauen_Anteil&quot;: round((women / total) if total else 0.0, 4)
+            })
+
+    print(&quot;Fertig.&quot;)
+    print(f&quot;Export: {urls_csv}&quot;)
+    print(f&quot;Export: {counts_csv}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre>
     </main>
   </body>
 </html>
