@@ -1,6 +1,6 @@
 import re
 
-EXCLUDE_WOMEN = {
+EXCLUDE_FRAU = {
     "spielerfrau",
     "frau-von",
     "frau-des",
@@ -88,7 +88,6 @@ GERMAN_WOMEN = {
     "frauen-nationalteam",
     "frauennati",
     "frauen-nati",
-    "frauen-super-league",
 }
 
 GERMAN_MEN = {
@@ -128,7 +127,6 @@ FRENCH_WOMEN = {
     "equipe-de-france-feminine",
     "d1-arkema",
     "division-1-feminine",
-    "ligue-des-champions-feminine",
 }
 
 FRENCH_MEN = {
@@ -169,15 +167,23 @@ def tokenize(url: str) -> set[str]:
     return set(t for t in cleaned.split() if t)
 
 
+def matches_rules(url: str, outlet: str) -> bool:
+    tokens = tokenize(url)
+    rules = OUTLET_RULES.get(outlet, {"women": set(), "men": set()})
+    women_tokens = rules["women"] | WOMEN_NAMES
+    men_tokens = rules["men"] | MEN_NAMES
+    return bool(tokens & (women_tokens | men_tokens | EXCLUDE_FRAU))
+
+
 def classify_url(url: str, outlet: str) -> str:
     tokens = tokenize(url)
-    if tokens & EXCLUDE_WOMEN:
-        return "Herrenfussball"
     rules = OUTLET_RULES.get(outlet, {"women": set(), "men": set()})
     women_tokens = rules["women"] | WOMEN_NAMES
     men_tokens = rules["men"] | MEN_NAMES
     if tokens & women_tokens:
         return "Frauenfussball"
+    if tokens & EXCLUDE_FRAU:
+        return "Herrenfussball"
     if tokens & men_tokens:
         return "Herrenfussball"
     return "Herrenfussball"

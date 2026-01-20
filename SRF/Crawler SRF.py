@@ -17,23 +17,122 @@ END_YEAR = 2025
 SITEMAP_TEMPLATE = "https://www.srf.ch/sitemaps/aron/articles/{year}_{month:02d}.xml"
 FOOTBALL_PREFIX = "https://www.srf.ch/sport/fussball/"
 
-# Keywords 
-WOMEN_KW = [
-    "frauen", "woman", "women", "lionesses", "frauen-nati", "frauennati",
-    "frauenfussball", "frauenfußball", "axa-women", "womens", "women-s",
-    "frauen-super-league", "women-s-super-league", "wsl"
-]
+EXCLUDE_FRAU = {
+    "spielerfrau",
+    "frau-von",
+    "frau-des",
+    "ehefrau",
+    "exfrau",
+    "ex-frau",
+    "freundin",
+    "gattin",
+    "verlobte",
+    # French
+    "epouse",
+    "epouse-de",
+    "ex-epouse",
+    # Italian
+    "moglie",
+    "ex-moglie",
+}
 
-MEN_HINTS = [
-    "super-league", "champions-league", "europa-league", "nati", "bundesliga",
-]
+WOMEN_NAMES = {
+    "rapinoe",
+    "morgan",
+    "hegerberg",
+    "miedema",
+    "putellas",
+    "bonmati",
+    "kerr",
+    "marta",
+    "kirby",
+    "mead",
+    "bronze",
+    "hamm",
+    # Switzerland
+    "bachmann",
+    "maendly",
+    "beney",
+    "maritz",
+    "crnogorcevic",
+    "thalmann",
+    "calligaris",
+    "lehmann",
+    "waelti",
+    # International
+    "popp",
+    "oberdorf",
+    "hansen",
+    "hasegawa",
+    "foord",
+    "graham",
+    "rodman",
+    "lavelle",
+    "press",
+}
 
-HEADERS = {
+MEN_NAMES = {
+    "messi",
+    "ronaldo",
+    "mbappe",
+    "haaland",
+    "neymar",
+    "lewandowski",
+    "benzema",
+    "modric",
+    "kroos",
+    "kane",
+    "salah",
+    "bellingham",
+    "vinicius",
+}
+
+OUTLET_WOMEN = {
+    "frauen",
+    "frauenfussball",
+    "fussballerinnen",
+    "frauenliga",
+    "frauenbundesliga",
+    "2-frauen-bundesliga",
+    "dfb-frauen",
+    "uefa-frauen",
+    "fifa-frauen",
+    "frauen-em",
+    "frauen-wm",
+    "frauen-weltmeisterschaft",
+    "frauen-europameisterschaft",
+    "frauen-nationalmannschaft",
+    "frauen-nationalteam",
+    "frauennati",
+    "frauen-nati",
+}
+
+OUTLET_MEN = {
+    "bundesliga",
+    "2-bundesliga",
+    "dritte-liga",
+    "dfb-pokal",
+    "champions-league",
+    "europa-league",
+    "conference-league",
+}
+
+WOMEN_TOKENS = OUTLET_WOMEN | WOMEN_NAMES
+MEN_TOKENS = OUTLET_MEN | MEN_NAMESHEADERS = {
     "User-Agent": "Mozilla/5.0 (Maturaarbeit)"
 }
 
 def classify_by_url(url: str) -> str:
     return classify_url(url, "SRF")
+
+def tokenize(url: str) -> set[str]:
+    lower = url.lower()
+    cleaned = re.sub(r"[^a-z0-9]+", " ", lower)
+    return set(t for t in cleaned.split() if t)
+
+def matches_rules(url: str) -> bool:
+    tokens = tokenize(url)
+    return bool(tokens & (WOMEN_TOKENS | MEN_TOKENS | EXCLUDE_FRAU))
 
 def fetch_sitemap(year: int, month: int) -> str:
     url = SITEMAP_TEMPLATE.format(year=year, month=month)
@@ -71,6 +170,9 @@ for year in range(START_YEAR, END_YEAR + 1):
 
         for loc, lastmod in entries:
             if not loc.startswith(FOOTBALL_PREFIX):
+                continue
+
+            if not matches_rules(loc):
                 continue
 
             category = classify_by_url(loc)
@@ -120,3 +222,4 @@ with open("srf_fussball_counts_2005_2025.csv", "w", newline="", encoding="utf-8"
 print("Fertig.")
 print("Export: srf_fussball_urls_2005_2025.csv")
 print("Export: srf_fussball_counts_2005_2025.csv")
+

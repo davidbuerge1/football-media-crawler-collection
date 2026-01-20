@@ -1,4 +1,5 @@
 import time
+import re
 import csv
 import os
 import sys
@@ -14,13 +15,120 @@ START_YEAR = 2005
 END_YEAR = 2025
 
 SITEMAP_INDEX = "https://www.watson.ch/sitemap.xml"
-FOOTBALL_MARKER = "/sport/fussball/"
 
-WOMEN_KW = [
-    "frauen", "women", "wsl", "frauennati", "frauen-nati",
-    "frauenfussball", "frauen-bundesliga", "dfb-frauen",
-    "uefa-frauen", "fifa-frauen"
-]
+EXCLUDE_FRAU = {
+    "spielerfrau",
+    "frau-von",
+    "frau-des",
+    "ehefrau",
+    "exfrau",
+    "ex-frau",
+    "freundin",
+    "gattin",
+    "verlobte",
+    # French
+    "epouse",
+    "epouse-de",
+    "ex-epouse",
+    # Italian
+    "moglie",
+    "ex-moglie",
+}
+
+WOMEN_NAMES = {
+    "rapinoe",
+    "morgan",
+    "hegerberg",
+    "miedema",
+    "putellas",
+    "bonmati",
+    "kerr",
+    "marta",
+    "kirby",
+    "mead",
+    "bronze",
+    "hamm",
+    # Switzerland
+    "bachmann",
+    "maendly",
+    "beney",
+    "maritz",
+    "crnogorcevic",
+    "thalmann",
+    "calligaris",
+    "lehmann",
+    "waelti",
+    # International
+    "popp",
+    "oberdorf",
+    "hansen",
+    "hasegawa",
+    "foord",
+    "graham",
+    "rodman",
+    "lavelle",
+    "press",
+}
+
+MEN_NAMES = {
+    "messi",
+    "ronaldo",
+    "mbappe",
+    "haaland",
+    "neymar",
+    "lewandowski",
+    "benzema",
+    "modric",
+    "kroos",
+    "kane",
+    "salah",
+    "bellingham",
+    "vinicius",
+}
+
+OUTLET_WOMEN = {
+    "frauen",
+    "frauenfussball",
+    "fussballerinnen",
+    "frauenliga",
+    "frauenbundesliga",
+    "2-frauen-bundesliga",
+    "dfb-frauen",
+    "uefa-frauen",
+    "fifa-frauen",
+    "frauen-em",
+    "frauen-wm",
+    "frauen-weltmeisterschaft",
+    "frauen-europameisterschaft",
+    "frauen-nationalmannschaft",
+    "frauen-nationalteam",
+    "frauennati",
+    "frauen-nati",
+    "women",
+    "womens",
+    "wsl",
+    "nwsl",
+    "womens-super-league",
+    "women-s-super-league",
+    "lionesses",
+    "matildas",
+}
+
+OUTLET_MEN = {
+    "bundesliga",
+    "2-bundesliga",
+    "dritte-liga",
+    "dfb-pokal",
+    "champions-league",
+    "europa-league",
+    "conference-league",
+    "premier-league",
+    "fa-cup",
+    "carabao-cup",
+}
+
+WOMEN_TOKENS = OUTLET_WOMEN | WOMEN_NAMES
+MEN_TOKENS = OUTLET_MEN | MEN_NAMES
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Maturaarbeit; contact: your-email@example.com)"
@@ -32,6 +140,17 @@ MAX_SITEMAPS = 20000
 
 def classify_by_url(url: str) -> str:
     return classify_url(url, "Watson")
+
+
+def tokenize(url: str) -> set[str]:
+    lower = url.lower()
+    cleaned = re.sub(r"[^a-z0-9]+", " ", lower)
+    return set(t for t in cleaned.split() if t)
+
+
+def matches_rules(url: str) -> bool:
+    tokens = tokenize(url)
+    return bool(tokens & (WOMEN_TOKENS | MEN_TOKENS | EXCLUDE_FRAU))
 
 
 def year_month_from_lastmod(lastmod: str):
@@ -117,7 +236,7 @@ def main():
 
         sm_year, sm_month = year_month_from_sitemap_url(sm_url)
         for loc, lastmod in entries:
-            if FOOTBALL_MARKER not in loc:
+            if not matches_rules(loc):
                 continue
 
             y, m = year_month_from_lastmod(lastmod)

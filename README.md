@@ -1,13 +1,14 @@
 ﻿# Crawler Projekt
 
-GitHub Pages Übersicht:
+GitHub Pages Uebersicht:
 
 - https://<username>.github.io/<repo>/
 
 ## Inhalt
-- `docs/` enthält die GitHub Pages Startseite.
-- Jeder Medien-Ordner enthält das Crawler-Skript, Rohdaten in `data/` und ein README mit Tabellen.
-- `00_erklaerung/README.md` erklärt kurz Sitemaps und den Ablauf.
+- `docs/` enthaelt die GitHub Pages Startseite.
+- Jeder Medien-Ordner enthaelt das Crawler-Skript, Rohdaten in `data/` und ein README mit Tabellen.
+- `classify_rules.py` enthaelt den URL-Algorithmus fuer Frauen-/Herrenfussball.
+- `00_erklaerung/README.md` erklaert kurz Sitemaps und den Ablauf.
 
 ## Hinweis
 Ersetze den Platzhalter-Link oben nach dem Push auf GitHub.

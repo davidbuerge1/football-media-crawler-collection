@@ -1,4 +1,5 @@
-﻿import os
+import os
+import re
 import time
 import csv
 import gzip
@@ -15,13 +16,109 @@ from classify_rules import classify_url
 START_YEAR = 2025
 END_YEAR = 2026
 ROBOTS_URL = "https://www.spiegel.de/robots.txt"  # kann ggf. Zugriffe steuern
-FOOTBALL_MARKER = "/sport/fussball/"
 
-WOMEN_KW = [
-    "frauen", "women", "wsl", "frauennati", "frauen-nati",
-    "frauenfussball", "frauen-bundesliga",
-    "dfb-frauen", "uefa-frauen", "fifa-frauen"
-]
+EXCLUDE_FRAU = {
+    "spielerfrau",
+    "frau-von",
+    "frau-des",
+    "ehefrau",
+    "exfrau",
+    "ex-frau",
+    "freundin",
+    "gattin",
+    "verlobte",
+    # French
+    "epouse",
+    "epouse-de",
+    "ex-epouse",
+    # Italian
+    "moglie",
+    "ex-moglie",
+}
+
+WOMEN_NAMES = {
+    "rapinoe",
+    "morgan",
+    "hegerberg",
+    "miedema",
+    "putellas",
+    "bonmati",
+    "kerr",
+    "marta",
+    "kirby",
+    "mead",
+    "bronze",
+    "hamm",
+    # Switzerland
+    "bachmann",
+    "maendly",
+    "beney",
+    "maritz",
+    "crnogorcevic",
+    "thalmann",
+    "calligaris",
+    "lehmann",
+    "waelti",
+    # International
+    "popp",
+    "oberdorf",
+    "hansen",
+    "hasegawa",
+    "foord",
+    "graham",
+    "rodman",
+    "lavelle",
+    "press",
+}
+
+MEN_NAMES = {
+    "messi",
+    "ronaldo",
+    "mbappe",
+    "haaland",
+    "neymar",
+    "lewandowski",
+    "benzema",
+    "modric",
+    "kroos",
+    "kane",
+    "salah",
+    "bellingham",
+    "vinicius",
+}
+
+OUTLET_WOMEN = {
+    "frauen",
+    "frauenfussball",
+    "fussballerinnen",
+    "frauenliga",
+    "frauenbundesliga",
+    "2-frauen-bundesliga",
+    "dfb-frauen",
+    "uefa-frauen",
+    "fifa-frauen",
+    "frauen-em",
+    "frauen-wm",
+    "frauen-weltmeisterschaft",
+    "frauen-europameisterschaft",
+    "frauen-nationalmannschaft",
+    "frauen-nationalteam",
+    "frauennati",
+    "frauen-nati",
+}
+
+OUTLET_MEN = {
+    "bundesliga",
+    "2-bundesliga",
+    "dritte-liga",
+    "dfb-pokal",
+    "champions-league",
+    "europa-league",
+    "conference-league",
+}
+
+WOMEN_TOKENS = OUTLET_WOMEN | WOMEN_NAMES
+MEN_TOKENS = OUTLET_MEN | MEN_NAMES
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Maturaarbeit; contact: your-email@example.com)"
@@ -42,6 +139,15 @@ def setup_logging(log_path: str):
 
 def classify(text: str) -> str:
     return classify_url(text, "Spiegel")
+
+def tokenize(url: str) -> set[str]:
+    lower = url.lower()
+    cleaned = re.sub(r"[^a-z0-9]+", " ", lower)
+    return set(t for t in cleaned.split() if t)
+
+def matches_rules(url: str) -> bool:
+    tokens = tokenize(url)
+    return bool(tokens & (WOMEN_TOKENS | MEN_TOKENS | EXCLUDE_FRAU))
 
 def year_from_lastmod(lastmod: str):
     if not lastmod:
@@ -178,7 +284,7 @@ def main():
         total_sitemaps += 1
         total_entries += len(entries)
         for loc, lastmod in entries:
-            if FOOTBALL_MARKER not in loc:
+            if not matches_rules(loc):
                 continue
             football_candidates += 1
 
@@ -192,7 +298,7 @@ def main():
                 debug_urls.append(loc)
 
             if MAX_URLS is not None and len(rows) >= MAX_URLS:
-                print("[INFO] MAX_URLS erreicht â€“ Stop.")
+                print("[INFO] MAX_URLS erreicht – Stop.")
                 break
         if MAX_URLS is not None and len(rows) >= MAX_URLS:
             break
@@ -249,6 +355,7 @@ if __name__ == "__main__":
     if args.debug:
         DEBUG = True
     main()
+
 
 
 
