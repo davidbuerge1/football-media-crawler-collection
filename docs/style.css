@@ -99,13 +99,14 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 6px 12px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: linear-gradient(135deg, rgba(100, 210, 255, 0.18), rgba(246, 196, 83, 0.12));
+  background: linear-gradient(135deg, rgba(100, 210, 255, 0.16), rgba(246, 196, 83, 0.1));
   color: var(--text);
   text-decoration: none;
   font-weight: 600;
+  font-size: 0.9rem;
   transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
 }
 
@@ -120,8 +121,8 @@ a:hover {
 }
 
 .btn-small {
-  padding: 6px 12px;
-  font-size: 0.9rem;
+  padding: 5px 10px;
+  font-size: 0.85rem;
 }
 
 table {
@@ -203,3 +204,4 @@ hr {
   border-top: 1px solid var(--line);
   margin: 28px 0;
 }
+
