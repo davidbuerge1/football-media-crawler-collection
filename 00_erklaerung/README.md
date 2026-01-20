@@ -11,7 +11,7 @@ Beispiel fuer eine Sitemap: https://www.srf.ch/sitemaps/aron/articles/2025_12.xm
 
 ## Was macht der Crawler mit der Sitemap?
 - Er laedt die Sitemap(s) der jeweiligen Website.
-- Er liest alle Links aus und filtert nur Fussball-Seiten.
+- Er liest alle Links aus und filtert nur Fussball-Seiten mit dem gleichen Regelsatz wie die Klassifikation.
 - Er speichert alle gefundenen Links in eine URL-CSV.
 - Er zaehlt pro Jahr, wie viele Links zu Frauen- und Herrenfussball gehoeren.
 - Diese Jahres-Zaehlungen werden in einer Count-CSV gespeichert.
@@ -19,9 +19,9 @@ Beispiel fuer eine Sitemap: https://www.srf.ch/sitemaps/aron/articles/2025_12.xm
 ## Klassifikation (Frauen vs. Herren)
 Die Zuordnung erfolgt ueber einen URL-Algorithmus:
 - Frauenfussball wird erkannt ueber Ligen/Schluesselwoerter (z. B. wsl, d1-arkema, serie-a-femminile)
-  und ueber eindeutige Spielerinnen-Namen.
-- Begriffe wie "spielerfrau", "ehefrau" oder "moglie" werden ausgeschlossen, damit Berichte ueber
-  die Frau eines Spielers nicht faelschlich als Frauenfussball zaehlen.
+  und ueber eindeutige Spielerinnen-Namen. Herrenfussball ueber Herren-Ligen und -Namen.
+- Begriffe wie "spielerfrau", "ehefrau" oder "moglie" werden als Ausschluss verwendet, damit Berichte
+  ueber Spieler-Familien nicht faelschlich als Frauenfussball zaehlen.
 
 ## Ergebnisdateien
 - `*_urls_*.csv` enthaelt alle gefundenen Artikel-Links.
