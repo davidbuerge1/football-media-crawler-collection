@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Spiegel - Auswertung</title>
-  <link rel="stylesheet" href="../style.css?v=2" />
+  <link rel="stylesheet" href="../style.css?v=3" />
 </head>
 <body>
 <main class="content">
@@ -14,23 +14,19 @@
   <h2>Zusammenfassung</h2>
   <ul>
     <li>Jahre: 2010–2026</li>
-    <li>Total: 28592</li>
-    <li>Frauen: 465</li>
-    <li>Herren: 28127</li>
+    <li>Total: 57184</li>
+    <li>Frauen: 930</li>
+    <li>Herren: 56254</li>
     <li>Frauen-Anteil: 1,63%</li>
   </ul>
   <h2>Dateien</h2>
   <ul>
 <li><a href="https://raw.githubusercontent.com/davidbuerge1/football-media-crawler-collection/main/Spiegel/Crawler%20Spiegel%202010-2013.py">Script: Crawler Spiegel 2010-2013.py</a></li>
 <li><a href="https://raw.githubusercontent.com/davidbuerge1/football-media-crawler-collection/main/Spiegel/Crawler%20Spiegel.py">Script: Crawler Spiegel.py</a></li>
-<li><a href="https://raw.githubusercontent.com/davidbuerge1/football-media-crawler-collection/main/Spiegel/data/spiegel_fussball_counts_2010_2013_old.csv">Counts CSV: spiegel_fussball_counts_2010_2013_old.csv</a></li>
-<li><a href="https://raw.githubusercontent.com/davidbuerge1/football-media-crawler-collection/main/Spiegel/data/spiegel_fussball_counts_2014_2017.csv">Counts CSV: spiegel_fussball_counts_2014_2017.csv</a></li>
-<li><a href="https://raw.githubusercontent.com/davidbuerge1/football-media-crawler-collection/main/Spiegel/data/spiegel_fussball_counts_2024-2026.csv">Counts CSV: spiegel_fussball_counts_2024-2026.csv</a></li>
-<li><a href="https://raw.githubusercontent.com/davidbuerge1/football-media-crawler-collection/main/Spiegel/data/spiegel_fussball_urls_2014-2017.csv">URLs CSV: spiegel_fussball_urls_2014-2017.csv</a></li>
-<li><a href="https://raw.githubusercontent.com/davidbuerge1/football-media-crawler-collection/main/Spiegel/data/spiegel_fussball_urls_2024-2026.csv">URLs CSV: spiegel_fussball_urls_2024-2026.csv</a></li>
+<li><a href="https://raw.githubusercontent.com/davidbuerge1/football-media-crawler-collection/main/Spiegel/data/spiegel_fussball_counts_combined.csv">Counts CSV: spiegel_fussball_counts_combined.csv</a></li>
+<li><a href="https://raw.githubusercontent.com/davidbuerge1/football-media-crawler-collection/main/Spiegel/data/spiegel_fussball_urls_combined.csv">URLs CSV: spiegel_fussball_urls_combined.csv</a></li>
   </ul>
-  <h2>Auswertungen</h2>
-  <h3>spiegel_fussball_counts_2010_2013_old.csv</h3>
+  <h2>Auswertung</h2>
 <table>
   <thead>
     <tr>
@@ -70,21 +66,6 @@
       <td>2220</td>
       <td>0.0198</td>
     </tr>
-  </tbody>
-</table>
-
-  <h3>spiegel_fussball_counts_2014_2017.csv</h3>
-<table>
-  <thead>
-    <tr>
-      <th>year</th>
-      <th>Frauenfussball</th>
-      <th>Herrenfussball</th>
-      <th>Total</th>
-      <th>Frauen_Anteil</th>
-    </tr>
-  </thead>
-  <tbody>
     <tr>
       <td>2014</td>
       <td>44</td>
@@ -113,21 +94,6 @@
       <td>2443</td>
       <td>0.0184</td>
     </tr>
-  </tbody>
-</table>
-
-  <h3>spiegel_fussball_counts_2024-2026.csv</h3>
-<table>
-  <thead>
-    <tr>
-      <th>year</th>
-      <th>Frauenfussball</th>
-      <th>Herrenfussball</th>
-      <th>Total</th>
-      <th>Frauen_Anteil</th>
-    </tr>
-  </thead>
-  <tbody>
     <tr>
       <td>2024</td>
       <td>78</td>
@@ -152,8 +118,202 @@
   </tbody>
 </table>
 
+  <h2>Rohdaten</h2>
+  <p class="muted">Auszug (erste 30 Zeilen).</p>
+<table>
+  <thead>
+    <tr>
+      <th>year</th>
+      <th>lastmod</th>
+      <th>category</th>
+      <th>url</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-31T23:56:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/der-transferticker-von-spiegel-online-a-946315.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-31T22:28:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/bundesliga-borussia-dortmund-besiegt-eintracht-braunschweig-a-950496.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-31T18:15:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/bundesliga-bvb-mit-einer-traum-elf-nach-transfergeruechten-a-950299.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-31T17:01:56+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/copa-del-rey-santander-nach-boykott-mit-pokalausschluss-bestraft-a-950456.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-31T15:55:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/niedersachsenderby-hannover-verhaengt-stadionverbote-a-950440.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-31T15:23:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/bundesliga-klopp-mit-dortmund-in-braunschweig-zu-gast-a-950261.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-31T13:50:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/bundesliga-investor-kkr-steigt-mit-millionen-bei-hertha-bsc-ein-a-950391.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-31T12:08:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/datenlese-fussball-war-nie-ein-proletariersport-a-950208.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-31T06:06:10+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/die-sport-highlights-am-freitag-31-januar-a-950286.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-30T21:49:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/copa-del-rey-santander-profis-sorgen-fuer-spielabbruch-a-950300.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-30T20:29:23+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/wm-2022-fifa-fordert-bericht-von-katar-zur-lage-auf-wm-baustellen-a-950293.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-30T20:03:59+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/champions-league-laurent-blanc-von-psg-fuer-ein-spiel-gesperrt-a-950292.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-30T11:04:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/fuehrungstor-von-ibisevic-als-gluecksbringer-fuer-den-fc-bayern-a-946341.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-30T07:27:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/fc-bayern-siegt-vor-allem-wegen-eines-starken-thiago-ueber-stuttgart-a-946301.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-30T00:01:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/fussball-fc-barcelona-und-atletico-madrid-erreichen-pokal-halbfinale-a-946298.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-29T23:31:14+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/coppa-italia-lazio-rom-scheidet-im-viertelfinale-gegen-ssc-neapel-aus-a-946296.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-29T23:13:13+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/premier-league-manchester-city-uebernimmt-tabellenfuehrung-von-arsenal-a-946295.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-29T22:05:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/fussball-bundesliga-bayern-muenchen-gewinnt-gegen-vfb-stuttgart-a-946286.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-29T20:01:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/kommentar-zu-beckenbauer-und-katar-kaiserschmarrn-a-946216.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-29T18:57:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/das-sind-die-fussball-transfers-vom-29-januar-a-945718.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-29T18:05:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/bundesliga-die-legendaersten-spielverlegungen-im-deutschen-fussball-a-946145.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-29T12:57:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/wettbetrug-testspiele-von-dresden-und-paderborn-unter-verdacht-a-946176.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-29T12:00:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/beckenbauer-verteidigt-wm-vergabe-an-katar-a-946163.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-29T10:16:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/fifa-zwanziger-schliesst-bewerbung-von-champagne-aus-a-946135.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-29T06:14:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/bayern-barcelona-und-premier-league-die-sport-highlights-am-mittwoch-a-946020.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-28T23:38:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/premier-league-arsenal-spielt-remis-bei-southampton-a-946070.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-28T23:37:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/copa-del-rey-real-madrid-erreicht-halbfinale-im-spanischen-pokal-a-946076.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-28T21:05:51+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/neymars-vater-bestaetigt-den-erhalt-von-40-millionen-euro-a-946094.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-28T19:50:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/krawalle-in-schweden-union-praesident-raeumt-versaeumnisse-ein-a-946091.html</td>
+    </tr>
+    <tr>
+      <td>2014</td>
+      <td>2014-01-28T18:52:00+01:00</td>
+      <td>Herrenfussball</td>
+      <td>https://www.spiegel.de/sport/fussball/fifa-sperrt-libanesischen-referee-auf-lebenszeit-a-946085.html</td>
+    </tr>
+  </tbody>
+</table>
+
 </main>
 </body>
 </html>
-
 

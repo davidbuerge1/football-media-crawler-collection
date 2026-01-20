@@ -1,11 +1,12 @@
 ﻿:root {
-  --text: #c9d1d9;
+  --text: #e6edf3;
   --muted: #8b949e;
-  --line: #30363d;
+  --line: #2f353d;
   --bg: #0b0f14;
-  --surface: #161b22;
+  --surface: #0f141b;
+  --surface-2: #141a22;
   --accent: #2f81f7;
-  --thead: #21262d;
+  --thead: #1b2230;
 }
 
 * {
@@ -14,16 +15,21 @@
 
 body {
   margin: 0;
-  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family: "Trebuchet MS", "Verdana", sans-serif;
   color: var(--text);
-  background: var(--bg);
+  background: radial-gradient(circle at top right, #121826 0%, #0b0f14 55%),
+              linear-gradient(180deg, #0b0f14 0%, #0a0e13 100%);
 }
 
 .content {
   max-width: 980px;
-  margin: 0 auto;
-  padding: 40px 20px 64px;
+  margin: 36px auto 80px;
+  padding: 28px 28px 48px;
   line-height: 1.65;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
 }
 
 h1, h2, h3 {
@@ -31,17 +37,20 @@ h1, h2, h3 {
 }
 
 h1 {
-  margin-bottom: 12px;
+  margin: 0 0 12px 0;
+  font-size: 2rem;
 }
 
 h2 {
-  margin-top: 28px;
+  margin-top: 26px;
   padding-bottom: 6px;
   border-bottom: 1px solid var(--line);
+  font-size: 1.35rem;
 }
 
 h3 {
-  margin-top: 18px;
+  margin-top: 16px;
+  font-size: 1.05rem;
 }
 
 p {
@@ -57,14 +66,18 @@ a {
   text-decoration: underline;
 }
 
+a:hover {
+  color: #6aa7ff;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 12px 0 20px;
   font-size: 0.95rem;
-  background: var(--surface);
+  background: var(--surface-2);
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -85,7 +98,7 @@ tbody tr:last-child td {
 }
 
 tbody tr:nth-child(even) {
-  background: #1c222b;
+  background: #121826;
 }
 
 .muted {
@@ -101,8 +114,8 @@ tbody tr:nth-child(even) {
 .media-block {
   border: 1px solid var(--line);
   padding: 12px 14px;
-  background: var(--surface);
-  border-radius: 6px;
+  background: var(--surface-2);
+  border-radius: 8px;
 }
 
 hr {
