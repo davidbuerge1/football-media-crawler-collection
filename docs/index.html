@@ -3,297 +3,100 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Crawler Projekt Uebersicht</title>
+    <title>Crawler Übersicht</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="page">
-      <header class="hero">
-        <div class="hero-badge">GitHub Pages</div>
-        <h1>Crawler Projekt Uebersicht</h1>
-        <p>Diese Seite zeigt die einzelnen Medien-Crawler, die Rohdaten und die Auswertungen. Die Tabellen sind als CSV gespeichert und in den jeweiligen README-Dateien dargestellt.</p>
-      </header>
+    <main class="content">
+      <h1>Crawler Übersicht</h1>
+      <p class="muted">Gesamtauswertung und Links zu den einzelnen Medien.</p>
 
-      <section class="explain">
-        <div class="explain-card">
-          <h2>Wie der Crawler funktioniert</h2>
-          <p>Ein Crawler durchsucht eine Website automatisch nach passenden Seiten. In diesem Projekt wird die Suche ueber Sitemaps gemacht.</p>
-          <div class="explain-grid">
-            <div>
-              <h3>Was ist eine Sitemap?</h3>
-              <p>Eine Sitemap ist eine Datei (meist XML), die eine Liste von Seiten einer Website enthaelt. Sie hilft Programmen dabei, alle Inhalte zu finden.</p>
-            </div>
-            <div>
-              <h3>Was macht der Crawler?</h3>
-              <ul>
-                <li>Er laedt die Sitemap(s) der jeweiligen Website.</li>
-                <li>Er filtert alle Fussball-Seiten.</li>
-                <li>Er speichert gefundene Links in einer URL-CSV.</li>
-                <li>Er zaehlt pro Jahr Frauen- und Herrenfussball.</li>
-                <li>Er schreibt die Jahreszahlen in eine Count-CSV.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      <h2>Gesamtauswertung (gemeinsame Jahre)</h2>
+      <p class="muted">Hier werden nur Jahre angezeigt, die in allen Medien vorkommen.</p><table>
+  <thead><tr><th>Jahr</th><th>Frauen</th><th>Herren</th><th>Total</th><th>Frauen-Anteil</th></tr></thead>
+  <tbody>
+    <tr><td>2024</td><td>882</td><td>28640</td><td>29522</td><td>2,99%</td></tr>
+    <tr><td>2025</td><td>2036</td><td>29271</td><td>31307</td><td>6,5%</td></tr>
+  </tbody>
+</table>
+      <h2>Medien</h2>
+      <ul><li><a href="media/20min.html">20min</a></li>
+<li><a href="media/LeFigaro.html">LeFigaro</a></li>
+<li><a href="media/LeMonde.html">LeMonde</a></li>
+<li><a href="media/Reppubblica.html">Reppubblica</a></li>
+<li><a href="media/Spiegel.html">Spiegel</a></li>
+<li><a href="media/SRF.html">SRF</a></li>
+<li><a href="media/Watson.html">Watson</a></li>
+      </ul>
 
-      <section class="grid"><article class="card">
-  <div class="card-head"><h3>20min</h3><span class="pill">Crawler</span></div>
-  <p class="card-lead">Auswertung und Rohdaten fuer 20min. Tabellen sind in den CSV-Dateien und in der README zusammengefasst.</p>
-  <div class="stats">
-    <div><span class="label">Jahre</span><span class="value">2005-2025</span></div>
-    <div><span class="label">Total</span><span class="value">2124</span></div>
-    <div><span class="label">Frauen</span><span class="value">69</span></div>
-    <div><span class="label">Herren</span><span class="value">2055</span></div>
-    <div><span class="label">Frauen-Anteil</span><span class="value">3,25%</span></div>
-  </div>
-  <div class="meta-grid">
-<div class="meta-block">
-<div class="meta-title">Scripts</div>
-<div class="meta-empty">Keine Dateien</div>
-</div>
-
-<div class="meta-block">
-<div class="meta-title">Counts CSV</div>
-<ul class="meta-list">
-<li><a href="../20min/data/20min_fussball_counts_2005_2025.csv">20min_fussball_counts_2005_2025.csv</a></li>
+      <h2>Links zu Auswertungen und Tabellen</h2>
+      <div class="media-links"><div class="media-block">
+<h3>20min</h3>
+<ul>
+<li><a href="media/20min.html">Auswertung (HTML)</a></li>
+<li><a href="../20min/data/20min_fussball_counts_2005_2025.csv">Counts: 20min_fussball_counts_2005_2025.csv</a></li>
+<li><a href="../20min/data/20min_fussball_urls_2005_2025.csv">URLs: 20min_fussball_urls_2005_2025.csv</a></li>
 </ul>
 </div>
-
-<div class="meta-block">
-<div class="meta-title">URLs CSV</div>
-<ul class="meta-list">
-<li><a href="../20min/data/20min_fussball_urls_2005_2025.csv">20min_fussball_urls_2005_2025.csv</a></li>
+<div class="media-block">
+<h3>LeFigaro</h3>
+<ul>
+<li><a href="media/LeFigaro.html">Auswertung (HTML)</a></li>
+<li><a href="../LeFigaro/data/lefigaro_fussball_counts_2005_2025.csv">Counts: lefigaro_fussball_counts_2005_2025.csv</a></li>
+<li><a href="../LeFigaro/data/lefigaro_fussball_urls_2005_2025.csv">URLs: lefigaro_fussball_urls_2005_2025.csv</a></li>
 </ul>
 </div>
-
-  </div>
-  <a class="card-link" href="../20min/README.md">README anzeigen</a>
-</article>
-<article class="card">
-  <div class="card-head"><h3>LeFigaro</h3><span class="pill">Crawler</span></div>
-  <p class="card-lead">Auswertung und Rohdaten fuer LeFigaro. Tabellen sind in den CSV-Dateien und in der README zusammengefasst.</p>
-  <div class="stats">
-    <div><span class="label">Jahre</span><span class="value">2007-2025</span></div>
-    <div><span class="label">Total</span><span class="value">361683</span></div>
-    <div><span class="label">Frauen</span><span class="value">1996</span></div>
-    <div><span class="label">Herren</span><span class="value">359687</span></div>
-    <div><span class="label">Frauen-Anteil</span><span class="value">0,55%</span></div>
-  </div>
-  <div class="meta-grid">
-<div class="meta-block">
-<div class="meta-title">Scripts</div>
-<ul class="meta-list">
-<li><a href="../LeFigaro/Crawler LeFigaro.py">Crawler LeFigaro.py</a></li>
+<div class="media-block">
+<h3>LeMonde</h3>
+<ul>
+<li><a href="media/LeMonde.html">Auswertung (HTML)</a></li>
+<li><a href="../LeMonde/data/lemonde_fussball_counts_2005_2025.csv">Counts: lemonde_fussball_counts_2005_2025.csv</a></li>
+<li><a href="../LeMonde/data/lemonde_fussball_urls_2005_2025.csv">URLs: lemonde_fussball_urls_2005_2025.csv</a></li>
 </ul>
 </div>
-
-<div class="meta-block">
-<div class="meta-title">Counts CSV</div>
-<ul class="meta-list">
-<li><a href="../LeFigaro/data/lefigaro_fussball_counts_2005_2025.csv">lefigaro_fussball_counts_2005_2025.csv</a></li>
+<div class="media-block">
+<h3>Reppubblica</h3>
+<ul>
+<li><a href="media/Reppubblica.html">Auswertung (HTML)</a></li>
+<li><a href="../Reppubblica/data/repubblica_fussball_counts_2005_2025.csv">Counts: repubblica_fussball_counts_2005_2025.csv</a></li>
+<li><a href="../Reppubblica/data/repubblica_fussball_urls_2005_2025.csv">URLs: repubblica_fussball_urls_2005_2025.csv</a></li>
 </ul>
 </div>
-
-<div class="meta-block">
-<div class="meta-title">URLs CSV</div>
-<ul class="meta-list">
-<li><a href="../LeFigaro/data/lefigaro_fussball_urls_2005_2025.csv">lefigaro_fussball_urls_2005_2025.csv</a></li>
+<div class="media-block">
+<h3>Spiegel</h3>
+<ul>
+<li><a href="media/Spiegel.html">Auswertung (HTML)</a></li>
+<li><a href="../Spiegel/data/spiegel_fussball_counts_2010_2013_old.csv">Counts: spiegel_fussball_counts_2010_2013_old.csv</a></li>
+<li><a href="../Spiegel/data/spiegel_fussball_counts_2014_2017.csv">Counts: spiegel_fussball_counts_2014_2017.csv</a></li>
+<li><a href="../Spiegel/data/spiegel_fussball_counts_2024-2026.csv">Counts: spiegel_fussball_counts_2024-2026.csv</a></li>
+<li><a href="../Spiegel/data/spiegel_fussball_urls_2014-2017.csv">URLs: spiegel_fussball_urls_2014-2017.csv</a></li>
+<li><a href="../Spiegel/data/spiegel_fussball_urls_2024-2026.csv">URLs: spiegel_fussball_urls_2024-2026.csv</a></li>
 </ul>
 </div>
-
-  </div>
-  <a class="card-link" href="../LeFigaro/README.md">README anzeigen</a>
-</article>
-<article class="card">
-  <div class="card-head"><h3>LeMonde</h3><span class="pill">Crawler</span></div>
-  <p class="card-lead">Auswertung und Rohdaten fuer LeMonde. Tabellen sind in den CSV-Dateien und in der README zusammengefasst.</p>
-  <div class="stats">
-    <div><span class="label">Jahre</span><span class="value">2019-2025</span></div>
-    <div><span class="label">Total</span><span class="value">15014</span></div>
-    <div><span class="label">Frauen</span><span class="value">561</span></div>
-    <div><span class="label">Herren</span><span class="value">14453</span></div>
-    <div><span class="label">Frauen-Anteil</span><span class="value">3,74%</span></div>
-  </div>
-  <div class="meta-grid">
-<div class="meta-block">
-<div class="meta-title">Scripts</div>
-<ul class="meta-list">
-<li><a href="../LeMonde/Crawler LeMonde.py">Crawler LeMonde.py</a></li>
+<div class="media-block">
+<h3>SRF</h3>
+<ul>
+<li><a href="media/SRF.html">Auswertung (HTML)</a></li>
+<li><a href="../SRF/data/srf_fussball_counts_2005_2025.csv">Counts: srf_fussball_counts_2005_2025.csv</a></li>
+<li><a href="../SRF/data/srf_fussball_counts_2015_2025.csv">Counts: srf_fussball_counts_2015_2025.csv</a></li>
+<li><a href="../SRF/data/srf_fussball_counts_2019_2024.csv">Counts: srf_fussball_counts_2019_2024.csv</a></li>
+<li><a href="../SRF/data/srf_fussball_urls_2005_2025.csv">URLs: srf_fussball_urls_2005_2025.csv</a></li>
+<li><a href="../SRF/data/srf_fussball_urls_2015_2025.csv">URLs: srf_fussball_urls_2015_2025.csv</a></li>
+<li><a href="../SRF/data/srf_fussball_urls_2019_2024.csv">URLs: srf_fussball_urls_2019_2024.csv</a></li>
 </ul>
 </div>
-
-<div class="meta-block">
-<div class="meta-title">Counts CSV</div>
-<ul class="meta-list">
-<li><a href="../LeMonde/data/lemonde_fussball_counts_2005_2025.csv">lemonde_fussball_counts_2005_2025.csv</a></li>
+<div class="media-block">
+<h3>Watson</h3>
+<ul>
+<li><a href="media/Watson.html">Auswertung (HTML)</a></li>
+<li><a href="../Watson/data/watson_fussball_counts_2005_2025.csv">Counts: watson_fussball_counts_2005_2025.csv</a></li>
+<li><a href="../Watson/data/watson_fussball_urls_2005_2025.csv">URLs: watson_fussball_urls_2005_2025.csv</a></li>
 </ul>
 </div>
+      </div>
 
-<div class="meta-block">
-<div class="meta-title">URLs CSV</div>
-<ul class="meta-list">
-<li><a href="../LeMonde/data/lemonde_fussball_urls_2005_2025.csv">lemonde_fussball_urls_2005_2025.csv</a></li>
-</ul>
-</div>
-
-  </div>
-  <a class="card-link" href="../LeMonde/README.md">README anzeigen</a>
-</article>
-<article class="card">
-  <div class="card-head"><h3>Reppubblica</h3><span class="pill">Crawler</span></div>
-  <p class="card-lead">Auswertung und Rohdaten fuer Reppubblica. Tabellen sind in den CSV-Dateien und in der README zusammengefasst.</p>
-  <div class="stats">
-    <div><span class="label">Jahre</span><span class="value">2022-2025</span></div>
-    <div><span class="label">Total</span><span class="value">19427</span></div>
-    <div><span class="label">Frauen</span><span class="value">204</span></div>
-    <div><span class="label">Herren</span><span class="value">19223</span></div>
-    <div><span class="label">Frauen-Anteil</span><span class="value">1,05%</span></div>
-  </div>
-  <div class="meta-grid">
-<div class="meta-block">
-<div class="meta-title">Scripts</div>
-<ul class="meta-list">
-<li><a href="../Reppubblica/Crawler Repubblica.py">Crawler Repubblica.py</a></li>
-</ul>
-</div>
-
-<div class="meta-block">
-<div class="meta-title">Counts CSV</div>
-<ul class="meta-list">
-<li><a href="../Reppubblica/data/repubblica_fussball_counts_2005_2025.csv">repubblica_fussball_counts_2005_2025.csv</a></li>
-</ul>
-</div>
-
-<div class="meta-block">
-<div class="meta-title">URLs CSV</div>
-<ul class="meta-list">
-<li><a href="../Reppubblica/data/repubblica_fussball_urls_2005_2025.csv">repubblica_fussball_urls_2005_2025.csv</a></li>
-</ul>
-</div>
-
-  </div>
-  <a class="card-link" href="../Reppubblica/README.md">README anzeigen</a>
-</article>
-<article class="card">
-  <div class="card-head"><h3>Spiegel</h3><span class="pill">Crawler</span></div>
-  <p class="card-lead">Auswertung und Rohdaten fuer Spiegel. Tabellen sind in den CSV-Dateien und in der README zusammengefasst.</p>
-  <div class="stats">
-    <div><span class="label">Jahre</span><span class="value">2010-2026</span></div>
-    <div><span class="label">Total</span><span class="value">28592</span></div>
-    <div><span class="label">Frauen</span><span class="value">465</span></div>
-    <div><span class="label">Herren</span><span class="value">28127</span></div>
-    <div><span class="label">Frauen-Anteil</span><span class="value">1,63%</span></div>
-  </div>
-  <div class="meta-grid">
-<div class="meta-block">
-<div class="meta-title">Scripts</div>
-<ul class="meta-list">
-<li><a href="../Spiegel/Crawler Spiegel 2010-2013.py">Crawler Spiegel 2010-2013.py</a></li>
-<li><a href="../Spiegel/Crawler Spiegel.py">Crawler Spiegel.py</a></li>
-</ul>
-</div>
-
-<div class="meta-block">
-<div class="meta-title">Counts CSV</div>
-<ul class="meta-list">
-<li><a href="../Spiegel/data/spiegel_fussball_counts_2010_2013_old.csv">spiegel_fussball_counts_2010_2013_old.csv</a></li>
-<li><a href="../Spiegel/data/spiegel_fussball_counts_2014_2017.csv">spiegel_fussball_counts_2014_2017.csv</a></li>
-<li><a href="../Spiegel/data/spiegel_fussball_counts_2024-2026.csv">spiegel_fussball_counts_2024-2026.csv</a></li>
-</ul>
-</div>
-
-<div class="meta-block">
-<div class="meta-title">URLs CSV</div>
-<ul class="meta-list">
-<li><a href="../Spiegel/data/spiegel_fussball_urls_2014-2017.csv">spiegel_fussball_urls_2014-2017.csv</a></li>
-<li><a href="../Spiegel/data/spiegel_fussball_urls_2024-2026.csv">spiegel_fussball_urls_2024-2026.csv</a></li>
-</ul>
-</div>
-
-  </div>
-  <a class="card-link" href="../Spiegel/README.md">README anzeigen</a>
-</article>
-<article class="card">
-  <div class="card-head"><h3>SRF</h3><span class="pill">Crawler</span></div>
-  <p class="card-lead">Auswertung und Rohdaten fuer SRF. Tabellen sind in den CSV-Dateien und in der README zusammengefasst.</p>
-  <div class="stats">
-    <div><span class="label">Jahre</span><span class="value">2012-2025</span></div>
-    <div><span class="label">Total</span><span class="value">72739</span></div>
-    <div><span class="label">Frauen</span><span class="value">5460</span></div>
-    <div><span class="label">Herren</span><span class="value">67279</span></div>
-    <div><span class="label">Frauen-Anteil</span><span class="value">7,51%</span></div>
-  </div>
-  <div class="meta-grid">
-<div class="meta-block">
-<div class="meta-title">Scripts</div>
-<ul class="meta-list">
-<li><a href="../SRF/Crawler SRF.py">Crawler SRF.py</a></li>
-</ul>
-</div>
-
-<div class="meta-block">
-<div class="meta-title">Counts CSV</div>
-<ul class="meta-list">
-<li><a href="../SRF/data/srf_fussball_counts_2005_2025.csv">srf_fussball_counts_2005_2025.csv</a></li>
-<li><a href="../SRF/data/srf_fussball_counts_2015_2025.csv">srf_fussball_counts_2015_2025.csv</a></li>
-<li><a href="../SRF/data/srf_fussball_counts_2019_2024.csv">srf_fussball_counts_2019_2024.csv</a></li>
-</ul>
-</div>
-
-<div class="meta-block">
-<div class="meta-title">URLs CSV</div>
-<ul class="meta-list">
-<li><a href="../SRF/data/srf_fussball_urls_2005_2025.csv">srf_fussball_urls_2005_2025.csv</a></li>
-<li><a href="../SRF/data/srf_fussball_urls_2015_2025.csv">srf_fussball_urls_2015_2025.csv</a></li>
-<li><a href="../SRF/data/srf_fussball_urls_2019_2024.csv">srf_fussball_urls_2019_2024.csv</a></li>
-</ul>
-</div>
-
-  </div>
-  <a class="card-link" href="../SRF/README.md">README anzeigen</a>
-</article>
-<article class="card">
-  <div class="card-head"><h3>Watson</h3><span class="pill">Crawler</span></div>
-  <p class="card-lead">Auswertung und Rohdaten fuer Watson. Tabellen sind in den CSV-Dateien und in der README zusammengefasst.</p>
-  <div class="stats">
-    <div><span class="label">Jahre</span><span class="value">2014-2025</span></div>
-    <div><span class="label">Total</span><span class="value">14910</span></div>
-    <div><span class="label">Frauen</span><span class="value">299</span></div>
-    <div><span class="label">Herren</span><span class="value">14611</span></div>
-    <div><span class="label">Frauen-Anteil</span><span class="value">2,01%</span></div>
-  </div>
-  <div class="meta-grid">
-<div class="meta-block">
-<div class="meta-title">Scripts</div>
-<ul class="meta-list">
-<li><a href="../Watson/Crawler Watson.py">Crawler Watson.py</a></li>
-</ul>
-</div>
-
-<div class="meta-block">
-<div class="meta-title">Counts CSV</div>
-<ul class="meta-list">
-<li><a href="../Watson/data/watson_fussball_counts_2005_2025.csv">watson_fussball_counts_2005_2025.csv</a></li>
-</ul>
-</div>
-
-<div class="meta-block">
-<div class="meta-title">URLs CSV</div>
-<ul class="meta-list">
-<li><a href="../Watson/data/watson_fussball_urls_2005_2025.csv">watson_fussball_urls_2005_2025.csv</a></li>
-</ul>
-</div>
-
-  </div>
-  <a class="card-link" href="../Watson/README.md">README anzeigen</a>
-</article>
-      </section>
-
-      <footer class="footer">
-        <div>Quelle: Lokale CSV- und Crawler-Dateien aus diesem Repository.</div>
-        <div>Hinweis: Links zeigen auf die Dateien im Repo.</div>
-      </footer>
-    </div>
+      <hr />
+      <p class="muted">Hinweis: GitHub Pages zeigt keine .md-Dateien an. Die Auswertungen sind deshalb als HTML-Seiten verlinkt.</p>
+    </main>
   </body>
 </html>
