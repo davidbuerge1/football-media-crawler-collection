@@ -9,17 +9,17 @@
   <body>
     <main class="content">
       <h1>Crawler Übersicht</h1>
-      <p class="muted">Gesamtauswertung und Links zu den einzelnen Medien.</p>
+      <p class="muted">Links zu den einzelnen Medien, Auswertungen und Rohdaten.</p>
 
-      <h2>Gesamtauswertung (gemeinsame Jahre)</h2>
-      <p class="muted">Hier werden nur Jahre angezeigt, die in allen Medien vorkommen.</p><table>
-  <thead><tr><th>Jahr</th><th>Frauen</th><th>Herren</th><th>Total</th><th>Frauen-Anteil</th></tr></thead>
-  <tbody>
-    <tr><td>2024</td><td>960</td><td>31037</td><td>31997</td><td>3%</td></tr>
-    <tr><td>2025</td><td>2119</td><td>31086</td><td>33205</td><td>6,38%</td></tr>
-  </tbody>
-</table>
-      <h2>Medien</h2>
+      <h2>Wie der Crawler funktioniert</h2>
+<p class="muted">Kurz und einfach erklärt.</p>
+<ul>
+  <li>Er lädt die Sitemap(s) der Website.</li>
+  <li>Er filtert Fussball-Seiten anhand der URL.</li>
+  <li>Er speichert alle gefundenen Links in einer URLs-CSV.</li>
+  <li>Er zählt pro Jahr Frauen- und Herrenfussball.</li>
+  <li>Er schreibt die Auswertung in eine Counts-CSV.</li>
+</ul><h2>Medien</h2>
       <ul><li><a href="media/20min.html">20min</a></li>
 <li><a href="media/LeFigaro.html">LeFigaro</a></li>
 <li><a href="media/LeMonde.html">LeMonde</a></li>
@@ -93,3 +93,4 @@
     </main>
   </body>
 </html>
+
